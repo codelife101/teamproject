@@ -31,8 +31,14 @@ $(document).ready(function(){
 
 
 			}
-			console.log(markers);
-			initMap(markers);
+
+			fakeMakers = [
+				{lat: -41.206970214843, lng: 174.907836914062},
+				{lat: -41.206970214843, lng: 175.907836914062}
+			];
+			// console.log(markers);
+			initMap(fakeMakers);
+			// initMap(markers);
 		}, error:function(){
 			console.log('error');
 		}
@@ -72,24 +78,20 @@ function initMap(allMarkers) {
     
 
 
-	for (i =0; i<allMarkers.length; i++) {
+	for (let i =0; i<allMarkers.length; i++) {
 
 
 
-	  var latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
+	  let latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
 		  // console.log(latLng);
 
 
-					var marker = new google.maps.Marker({
+					let marker = new google.maps.Marker({
 						position: latLng,
 						map: map
 					});
 
-					  var infowindow = new google.maps.InfoWindow({
-    	content: contentString
-  		});
-
-							  var contentString = '<div id="content">'+
+					let contentString = '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
       '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
@@ -99,6 +101,12 @@ function initMap(allMarkers) {
       '<p>Count:</p>'+
       '</div>'+
       '</div>';
+
+					  let infowindow = new google.maps.InfoWindow({
+    	content: contentString
+  		});
+
+							  
 						// icon : myIcon
 						  marker.addListener('click', function() {
     						infowindow.open(map, marker);
