@@ -49,12 +49,17 @@ document.getElementsByTagName('body')[0].appendChild(script);
 
 function initMap(allMarkers) {
 	console.log(allMarkers);
+	let mapCenter = {};
+    mapCenter.lat = allMarkers.map(item => item.lat)
+        .reduce((total, value) => (total) + (value), 0)/allMarkers.length;
+    mapCenter.lng = allMarkers.map(item => item.lng)
+        .reduce((total, value) => (total) + (value), 0)/allMarkers.length;
 	var marker =[]
 	// The location of Wellington
 	var wellington = {lat: -41.2865, lng: 174.7762};
 	// The map, centered at Wellington
 	var map = new google.maps.Map(
-	    document.getElementById('map'), {zoom: 10, center: wellington});
+	    document.getElementById('map'), {zoom: 8, center: mapCenter});
 	// The marker, positioned at Welliington
 	var i;
 	var myIcon = {
@@ -63,16 +68,41 @@ function initMap(allMarkers) {
       };
 
 
+
+    
+
+
 	for (i =0; i<allMarkers.length; i++) {
+
+
 
 	  var latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
 		  // console.log(latLng);
+
+
 					var marker = new google.maps.Marker({
 						position: latLng,
 						map: map
-						// icon : myIcon
 					});
 
+					  var infowindow = new google.maps.InfoWindow({
+    	content: contentString
+  		});
+
+							  var contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
+      '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>MMI:</p>'+
+      '<p>Count:</p>'+
+      '</div>'+
+      '</div>';
+						// icon : myIcon
+						  marker.addListener('click', function() {
+    						infowindow.open(map, marker);
+  							});
 
 }
 
