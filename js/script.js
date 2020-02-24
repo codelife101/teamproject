@@ -73,44 +73,36 @@ function initMap(allMarkers) {
         scaledSize: new google.maps.Size(50, 50)
       };
 
-
-
-    
-
-
 	for (let i =0; i<allMarkers.length; i++) {
-
-
 
 	  let latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
 		  // console.log(latLng);
 
+			let marker = new google.maps.Marker({
+				position: latLng,
+				map: map,
 
-					let marker = new google.maps.Marker({
-						position: latLng,
-						map: map
-					});
+			});
 
-					let contentString = '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
-      '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
-      '<div id="bodyContent">'+
-      '<p>MMI:</p>'+
-      '<p>Count:</p>'+
-      '</div>'+
-      '</div>';
+			let contentString = '<div id="content">'+
+			    '<div id="siteNotice">'+
+			    '</div>'+
+			    '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
+			    '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
+			    '<div id="bodyContent">'+
+			    '<p>MMI:</p>'+
+			    '<p>Count:</p>'+
+			    '</div>'+
+			    '</div>';
 
-					  let infowindow = new google.maps.InfoWindow({
-    	content: contentString
-  		});
+			let infowindow = new google.maps.InfoWindow({
+	    		content: contentString,
+	    		maxWidth: 400,
+	  		});
 
-							  
-						// icon : myIcon
-						  marker.addListener('click', function() {
-    						infowindow.open(map, marker);
-  							});
+			marker.addListener('click', function() {
+    			infowindow.open(map, marker);
+  			});
 
 }
 
