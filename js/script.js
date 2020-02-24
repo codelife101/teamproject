@@ -102,14 +102,14 @@ function initMap(allMarkers) {
       '</div>'+
       '</div>';
 
-					  let infowindow = new google.maps.InfoWindow({
+					  var infowindow = new google.maps.InfoWindow({
     	content: contentString
   		});
 
 							  
 						// icon : myIcon
 						  marker.addListener('click', function() {
-    						infowindow.open(map, marker);
+    						infowindow.open(map, this);
   							});
 
 }
