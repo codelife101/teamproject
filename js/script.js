@@ -15,30 +15,30 @@ $(document).ready(function(){
 		dataType :'json',
 		success:function(data){
 			console.log(data);
-			var markers =[];
+			// var markers =[];
 
-			var i;
+			// var i;
 
-			for (i = 0; i < data.features.length; i++) {
-					var obj = {};
-				 // console.log('longitude:' , data.features[i].geometry.coordinates[0]);
-		  	 // console.log('latitude:' , data.features[i].geometry.coordinates[1]);
+			// for (i = 0; i < data.features.length; i++) {
+			// 		var obj = {};
+			// 	 // console.log('longitude:' , data.features[i].geometry.coordinates[0]);
+		  	//  // console.log('latitude:' , data.features[i].geometry.coordinates[1]);
 
-				 obj.lat = JSON.parse(data.features[i].geometry.coordinates[1]);
-				 obj.lng = JSON.parse(data.features[i].geometry.coordinates[0]);
+			// 	 obj.lat = JSON.parse(data.features[i].geometry.coordinates[1]);
+			// 	 obj.lng = JSON.parse(data.features[i].geometry.coordinates[0]);
 
-				 markers.push(obj);
+			// 	 markers.push(obj);
 
 
-			}
+			// }
 
-			fakeMakers = [
-				{lat: -41.206970214843, lng: 174.907836914062},
-				{lat: -41.206970214843, lng: 175.907836914062}
-			];
+			// fakeMakers = [
+			// 	{lat: -41.206970214843, lng: 174.907836914062},
+			// 	{lat: -41.206970214843, lng: 175.907836914062}
+			// ];
 			// console.log(markers);
-			initMap(fakeMakers);
-			// initMap(markers);
+			// initMap(fakeMakers);
+			initMap(data);
 		}, error:function(){
 			console.log('error');
 		}
@@ -53,8 +53,28 @@ document.getElementsByTagName('body')[0].appendChild(script);
 
 
 
-function initMap(allMarkers) {
-	console.log(allMarkers);
+function initMap(data) {
+	console.log(data);
+	var allMarkers =[];
+
+			var i;
+
+			for (i = 0; i < data.features.length; i++) {
+					var obj = {};
+				 // console.log('longitude:' , data.features[i].geometry.coordinates[0]);
+		  	 // console.log('latitude:' , data.features[i].geometry.coordinates[1]);
+
+				 obj.lat = JSON.parse(data.features[i].geometry.coordinates[1]);
+				 obj.lng = JSON.parse(data.features[i].geometry.coordinates[0]);
+
+				 allMarkers.push(obj);
+
+
+			}
+
+			console.log(allMarkers);
+	
+
 	let mapCenter = {};
     mapCenter.lat = allMarkers.map(item => item.lat)
         .reduce((total, value) => (total) + (value), 0)/allMarkers.length;
@@ -64,45 +84,84 @@ function initMap(allMarkers) {
 	// The location of Wellington
 	var wellington = {lat: -41.2865, lng: 174.7762};
 	// The map, centered at Wellington
-	var map = new google.maps.Map(
-	    document.getElementById('map'), {zoom: 8, center: mapCenter});
-	// The marker, positioned at Welliington
-	var i;
-	var myIcon = {
-        url : 'http://maps.google.com/mapfiles/kml/shapes/sailing.png',
-        scaledSize: new google.maps.Size(50, 50)
-      };
+	var mymap = new google.maps.Map(
+	    document.getElementById('map'), {zoom: 10, center: mapCenter});
+	// // The marker, positioned at Welliington
+	// var i;
+	// var myIcon = {
+    //     url : 'http://maps.google.com/mapfiles/kml/shapes/sailing.png',
+    //     scaledSize: new google.maps.Size(50, 50)
+	//   };
 
-	for (let i =0; i<allMarkers.length; i++) {
+   
 
-	  let latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
-		  // console.log(latLng);
+	  console.log(data);
+	for (let i =0; i<data.features.length; i++) {
 
-			let marker = new google.maps.Marker({
-				position: latLng,
-				map: map,
+		// console.log(data.features.length);
 
-			});
+	  let latLng = {lng: JSON.parse(data.features[i].geometry.coordinates[0]), lat: JSON.parse(data.features[i].geometry.coordinates[1]) }
+		//   console.log(latLng);
 
-			let contentString = '<div id="content">'+
-			    '<div id="siteNotice">'+
-			    '</div>'+
-			    '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
-			    '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
-			    '<div id="bodyContent">'+
-			    '<p>MMI:</p>'+
-			    '<p>Count:</p>'+
-			    '</div>'+
-			    '</div>';
 
-			let infowindow = new google.maps.InfoWindow({
-	    		content: contentString,
-	    		maxWidth: 400,
-	  		});
+					let marker = new google.maps.Marker({
+						position: latLng,
+						map: mymap
+					});
+					console.log(marker);
 
-			marker.addListener('click', function() {
-    			infowindow.open(map, marker);
-  			});
+					let contentString = '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">LAT: '+data.features[i].geometry.coordinates[0]+'</h1>'+
+      '<h1 class="firstHeading">LNG: '+data.features[i].geometry.coordinates[1]+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>MMI: ' + data.features[i].properties.mmi +  '</p>'+
+      '<p>Count: ' + data.features[i].properties.count +  '</p>'+
+      '</div>'+
+      '</div>';
+
+					  var infowindow = new google.maps.InfoWindow({
+    	content: contentString
+  		});
+
+							  
+						// icon : myIcon
+						  marker.addListener('click', function() {
+    						infowindow.open(map, this);
+  							});
+
+// 	for (let i =0; i<allMarkers.length; i++) {
+
+// 	  let latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
+// 		  // console.log(latLng);
+
+// 			let marker = new google.maps.Marker({
+// 				position: latLng,
+// 				map: map,
+
+// 			});
+
+// 			let contentString = '<div id="content">'+
+// 			    '<div id="siteNotice">'+
+// 			    '</div>'+
+// 			    '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
+// 			    '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
+// 			    '<div id="bodyContent">'+
+// 			    '<p>MMI:</p>'+
+// 			    '<p>Count:</p>'+
+// 			    '</div>'+
+// 			    '</div>';
+
+// 			let infowindow = new google.maps.InfoWindow({
+// 	    		content: contentString,
+// 	    		maxWidth: 400,
+// 	  		});
+
+// 			marker.addListener('click', function() {
+//     			infowindow.open(map, marker);
+//   			});
+
 
 }
 
