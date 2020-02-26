@@ -93,9 +93,7 @@ function initMap(data) {
     //     scaledSize: new google.maps.Size(50, 50)
 	//   };
 
-
-
-    
+   
 
 	  console.log(data);
 	for (let i =0; i<data.features.length; i++) {
@@ -132,6 +130,38 @@ function initMap(data) {
 						  marker.addListener('click', function() {
     						infowindow.open(map, this);
   							});
+
+// 	for (let i =0; i<allMarkers.length; i++) {
+
+// 	  let latLng = {lat:allMarkers[i].lat , lng:allMarkers[i].lng }
+// 		  // console.log(latLng);
+
+// 			let marker = new google.maps.Marker({
+// 				position: latLng,
+// 				map: map,
+
+// 			});
+
+// 			let contentString = '<div id="content">'+
+// 			    '<div id="siteNotice">'+
+// 			    '</div>'+
+// 			    '<h1 id="firstHeading" class="firstHeading">LAT: '+allMarkers[i].lng+'</h1>'+
+// 			    '<h1 class="firstHeading">LNG: '+allMarkers[i].lat+'</h1>'+
+// 			    '<div id="bodyContent">'+
+// 			    '<p>MMI:</p>'+
+// 			    '<p>Count:</p>'+
+// 			    '</div>'+
+// 			    '</div>';
+
+// 			let infowindow = new google.maps.InfoWindow({
+// 	    		content: contentString,
+// 	    		maxWidth: 400,
+// 	  		});
+
+// 			marker.addListener('click', function() {
+//     			infowindow.open(map, marker);
+//   			});
+
 
 }
 
